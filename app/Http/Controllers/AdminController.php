@@ -40,7 +40,7 @@ class AdminController extends Controller
     }
 
     public function loginFrom(){
-        return view('auth.login', ['guard' => 'admin']);
+        return view('auth.adminLogin', ['guard' => 'admin']);
 
     }
 
