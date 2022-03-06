@@ -57,26 +57,24 @@
                                     </div>
                                 </div>
 
+                                <div class="text-xs-right">
+                                  <button type="button" onclick="changePassword()" class="btn btn-rounded btn-primary md-5">Change Password</button>
+                              </div>
+
                                </div>
 
                                </div>
                        </div>
                     </div>
+                     
+                   </form>
                 </div>
             </div>
         </div>
-        <div class="text-xs-right">
-            <button type="button" onclick="changePassword()" class="btn btn-rounded btn-primary md-5">Change Password</button>
-        </div>
-                   </form>
+        
 
                </div>
                <!-- /.col -->
-             </div>
-             <!-- /.row -->
-           </div>
-           <!-- /.box-body -->
-         </div>
          <!-- /.box -->
 
        </section>

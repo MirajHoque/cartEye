@@ -2,7 +2,11 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\AdminProfileController;
+use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Frontend\IndexController;
+use App\Http\Controllers\Frontend\ProfileController;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,6 +33,17 @@ Route::middleware(['auth:sanctum,admin', 'verified'])->get('/admin/dashboard', f
     return view('admin.index');
 })->name('dashboard');
 
+/*************************************
+            Brands Route
+ *************************************/
+
+Route::prefix('brand')->group(function(){
+    Route::get('/show', [BrandController::class, 'showBrand'])->name('all.brands');
+    Route::post('/store', [BrandController::class, 'store'])->name('brand.store');
+
+});
+ 
+
 
 Route::get('/admin/logout', [AdminController::class, 'destroy'])->name('admin.logout');
 Route::get('/admin/profile', [AdminProfileController::class, 'adminProifle'])->name('admin.profile');
@@ -44,7 +59,16 @@ Route::post('/admin/update/password', [AdminProfileController::class, 'updatePas
  *************************************/
 
 Route::middleware(['auth:sanctum,web', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
+    $id = Auth::user()->id;
+    //dd($id);
+    $user = User::find($id);
+    //dd($user);
+    return view('dashboard', compact('user'));
 })->name('dashboard');
 
 Route::get('/', [IndexController::class, 'index']);
+Route::get('/user/logout', [IndexController::class, 'logOut'])->name('user.logout');
+Route::get('/user/profile', [IndexController::class, 'userProfile'])->name('user.profile');
+Route::post('/user/profile/store', [ProfileController::class, 'store']);
+Route::get('/user/change/password', [ProfileController::class, 'changePassword'])->name('change.password');
+Route::post('/user/update/password', [ProfileController::class, 'updatePassword']);
