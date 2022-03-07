@@ -1,11 +1,22 @@
 @extends('admin.master')
 
 @section('cdn')
+<!-- csrf token meta for ajax-->
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
+<!-- Jquery -->
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+<!-- SweetAlert2-->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Front Awesome CDN-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+
 @endsection
+
+
 @section('admin')
 
 
@@ -26,7 +37,7 @@
               <!-- /.box-header -->
               <div class="box-body">
                   <div class="table-responsive">
-                    <table id="example1" class="table table-bordered table-striped">
+                    <table id="brand_table" class="table table-bordered table-striped">
                       <thead>
                           <tr>
                               <th>Brand En</th>
@@ -41,11 +52,13 @@
                             <td>{{ $element->brand_name_en }}</td>
                             <td>{{ $element->brand_name_ban }}</td>
                             <td>
-                                <img src="{{ asset('$element->brand_image') }}"
-                                   style="width: 70px; height 40px" alt="">
+                                <img src="{{ asset($element->brand_image) }}"
+                                   style="width: 50px; height 40px" alt="">
                             </td>
-                            <button type="button" class="btn btn-info"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                            <td>
+                              <button type="button" id="btnedit" class="btn btn-info" title="Edit Brand"><i class="fa-solid fa-pen-to-square"></i></button>
+                              <button type="button" id="btndelete" class="btn btn-danger pl-5" title="Delete Brand"><i class="fa-solid fa-trash-can"></i></button>
+                            </td>
                         </tr>
                           @endforeach
                           
@@ -69,7 +82,7 @@
                <!-- /.box-header -->
                <div class="box-body">
                    <div class="table-responsive">
-                    <form method="POST" action="{{ url('brand/store') }}" enctype="multipart/form-data">	
+                    <form id="addBrand" method="" action="" enctype="multipart/form-data">	
                         @csrf
                         <div class="form-group">
                             <h5>Brand Name English</h5>
@@ -96,7 +109,7 @@
                     </div>
 
                     <div class="text-xs-right">
-                        <button type="submit" class="btn btn-rounded btn-primary md-5">Add Brand</button>
+                        <input type="submit" class="btn btn-rounded btn-primary md-5">
                     </div>
                 
                 </form>
@@ -119,12 +132,73 @@
     
     </div>
     
-</div>    
+</div>
+
+
 @endsection
 
 @push('script')
 
+
+
+<script type="text/javascript">
+        
+  //sweetalert2
+    var alertMsg = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 1500
+      })
+
+
+//clear error message
+    function clearData(){
+      //input fields
+      $('#brand_name_en').val('');
+      $('#brand_name_ban').val('');
+      $('#brand_image').val('');
+
+      //error fields
+        $('#brand_name_en_error').text('');
+        $('#brand_name_ban_error').text('');
+        $('#brand_image_error').text('');
+    }
+
+        //ajax from submission
+        $("#addBrand").submit( function (e) { 
+                e.preventDefault();
+                let formData = new FormData(this);
+
+                $.ajax({
+                    type: 'post',
+                    url: '/brand/store',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(res){
+                        clearData();
+                        //firing sweetalert2          
+                        alertMsg.fire({
+                            title: res.msg,
+                        })
+                    },
+                    error: function(err){
+                        $('#brand_name_en_error').text(err.responseJSON.errors.brand_name_en);
+                        $('#brand_name_ban_error').text(err.responseJSON.errors.brand_name_ban); 
+                        $('#brand_image_error').text(err.responseJSON.errors.brand_image); 
+                    }
+                })
+                
+            });
+
+
+
+</script>
 <script src="{{ asset('assets/vendor_components/datatable/datatables.min.js') }}"></script>
-	<script src="{{ asset('backend/js/pages/data-table.js') }}"></script>
+<script src="{{ asset('backend/js/pages/data-table.js') }}"></script>
+
+
     
 @endpush
