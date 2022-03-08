@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\AdminProfileController;
 use App\Http\Controllers\Backend\BrandController;
+use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Models\User;
@@ -33,8 +34,16 @@ Route::middleware(['auth:sanctum,admin', 'verified'])->get('/admin/dashboard', f
     return view('admin.index');
 })->name('dashboard');
 
+ 
+Route::get('/admin/logout', [AdminController::class, 'destroy'])->name('admin.logout');
+Route::get('/admin/profile', [AdminProfileController::class, 'adminProifle'])->name('admin.profile');
+Route::get('/admin/profile/edit', [AdminProfileController::class, 'adminProifleEdit'])->name('admin.profile.edit');
+Route::post('/admin/profile/store', [AdminProfileController::class, 'store'])->name('admin.profile.update');
+Route::get('/admin/change/password', [AdminProfileController::class, 'changePassword'])->name('admin.change.password');
+Route::post('/admin/update/password', [AdminProfileController::class, 'updatePassword']);
+
 /*************************************
-            Brands Route
+            Brand Route
  *************************************/
 
 Route::prefix('brand')->group(function(){
@@ -42,15 +51,19 @@ Route::prefix('brand')->group(function(){
     Route::post('/store', [BrandController::class, 'store'])->name('brand.store');
 
 });
- 
 
+/*************************************
+            Category Route
+ *************************************/
 
-Route::get('/admin/logout', [AdminController::class, 'destroy'])->name('admin.logout');
-Route::get('/admin/profile', [AdminProfileController::class, 'adminProifle'])->name('admin.profile');
-Route::get('/admin/profile/edit', [AdminProfileController::class, 'adminProifleEdit'])->name('admin.profile.edit');
-Route::post('/admin/profile/store', [AdminProfileController::class, 'store'])->name('admin.profile.update');
-Route::get('/admin/change/password', [AdminProfileController::class, 'changePassword'])->name('admin.change.password');
-Route::post('/admin/update/password', [AdminProfileController::class, 'updatePassword']);
+Route::prefix('category')->group(function(){
+    Route::get('/show', [CategoryController::class, 'showCategory'])->name('all.categories');
+    Route::post('/store', [CategoryController::class, 'store'])->name('category.store');
+    Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
+    Route::post('/update', [CategoryController::class, 'update']);
+    Route::get('/remove/{id}', [CategoryController::class, 'remove'])->name('category.remove');
+
+});
 
 
 

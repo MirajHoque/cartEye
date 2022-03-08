@@ -32,7 +32,7 @@
 
            <div class="box">
               <div class="box-header with-border">
-                <h3 class="box-title">Brands</h3>
+                <h3 class="box-title">Category List</h3>
               </div>
               <!-- /.box-header -->
               <div class="box-body">
@@ -40,24 +40,27 @@
                     <table id="example1" class="table table-bordered table-striped">
                       <thead>
                           <tr>
-                              <th>Brand En</th>
-                              <th>Brand Ban</th>
-                              <th>Image</th>
+                              <th>Icon</th>
+                              <th>Category En</th>
+                              <th>Category Ban</th>
                               <th>Action</th>
                           </tr>
                       </thead>
                       <tbody>
-                          @foreach ($brands as $element)
+                          @foreach ($categories as $element)
                           <tr>
-                            <td>{{ $element->brand_name_en }}</td>
-                            <td>{{ $element->brand_name_ban }}</td>
+                            <td class="text-center">
+                              <span><i class="{{ $element->category_icon }}"></i></span>
+                          </td>
+                            <td>{{ $element->category_name_en }}</td>
+                            <td>{{ $element->category_name_ban }}</td>
                             <td>
-                                <img src="{{ asset($element->brand_image) }}"
-                                   style="width: 50px; height 40px" alt="">
-                            </td>
-                            <td>
-                              <button type="button" id="btnedit" title="Edit Brand" class="btn btn-info"><i class="fa-solid fa-pen-to-square"></i></button>
-                              <button type="button" id="btndelete" title="Delete Brand" class="btn btn-danger pl-5"><i class="fa-solid fa-trash-can"></i></button>
+                              <a href="{{ route('category.edit',$element->id) }}" id="btnedit" class="btn btn-info" title="Edit Brand">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                              </a>
+                              <a href="{{ route('category.remove',$element->id) }}" id="btndelete" class="btn btn-danger pl-5" title="Delete Brand">
+                                <i class="fa-solid fa-trash-can"></i>
+                              </a>
                             </td>
                         </tr>
                           @endforeach
@@ -77,34 +80,34 @@
 
             <div class="box">
                <div class="box-header with-border">
-                 <h3 class="box-title">Brands</h3>
+                 <h3 class="box-title">Add Category</h3>
                </div>
                <!-- /.box-header -->
                <div class="box-body">
                    <div class="table-responsive">
-                    <form id="addBrand" method="" action="" enctype="multipart/form-data">	
+                    <form id="addCategory" method="" action="" enctype="multipart/form-data">	
                         @csrf
                         <div class="form-group">
-                            <h5>Brand Name English</h5>
+                            <h5>Category Name English</h5>
                             <div class="controls">
-                            <input type="text" id="brand_name_en" name="brand_name_en" class="form-control" >
-                            <span class="text-danger" id="brand_name_en_error"></span>
+                            <input type="text" id="category_name_en" name="category_name_en" class="form-control" >
+                            <span class="text-danger" id="category_name_en_error"></span>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <h5>Brand Name Bangla</h5>
+                            <h5>Category Name Bangla</h5>
                             <div class="controls">
-                            <input type="text" id="brand_name_ban" name="brand_name_ban" class="form-control" >
-                            <span class="text-danger" id="brand_name_ban_error"></span>
+                            <input type="text" id="category_name_ban" name="category_name_ban" class="form-control" >
+                            <span class="text-danger" id="category_name_ban_error"></span>
                             </div>
                         </div>
 
                         <div class="form-group">
-                        <h5>Brand Image</h5>
+                        <h5>Category Icon</h5>
                         <div class="controls">
-                        <input type="file" id="brand_image" name="brand_image" class="form-control" >
-                        <span class="text-danger" id="brand_image_error"></span>
+                        <input type="text" id="category_icon" name="category_icon" class="form-control" >
+                        <span class="text-danger" id="category_icon_error"></span>
                         </div>
                     </div>
 
@@ -156,42 +159,45 @@
 //clear error message
     function clearData(){
       //input fields
-      $('#brand_name_en').val('');
-      $('#brand_name_ban').val('');
-      $('#brand_image').val('');
+      $('category_name_en').val('');
+      $('category_name_ban').val('');
+      $('category_icon').val('');
 
       //error fields
-        $('#brand_name_en_error').text('');
-        $('#brand_name_ban_error').text('');
-        $('#brand_image_error').text('');
+        $('category_name_en_error').text('');
+        $('category_name_ban_error').text('');
+        $('category_icon_error').text('');
     }
 
         //ajax from submission
-        $("#addBrand").submit( function (e) { 
+        $("#addCategory").submit( function (e) { 
                 e.preventDefault();
                 let formData = new FormData(this);
 
                 $.ajax({
                     type: 'post',
-                    url: '/brand/store',
+                    url: '/category/store',
                     data: formData,
                     contentType: false,
                     processData: false,
                     success: function(res){
                         clearData();
+                        window.location = res.redirect_uri;
                         //firing sweetalert2          
                         alertMsg.fire({
                             title: res.msg,
                         })
                     },
                     error: function(err){
-                        $('#brand_name_en_error').text(err.responseJSON.errors.brand_name_en);
-                        $('#brand_name_ban_error').text(err.responseJSON.errors.brand_name_ban); 
-                        $('#brand_image_error').text(err.responseJSON.errors.brand_image); 
+                        $('#category_name_en_error').text(err.responseJSON.errors.category_name_en);
+                        $('#category_name_ban_error').text(err.responseJSON.errors.category_name_ban); 
+                        $('#category_icon_error').text(err.responseJSON.errors.category_icon); 
                     }
                 })
                 
-            });
+            });            
+
+
 
 </script>
 
