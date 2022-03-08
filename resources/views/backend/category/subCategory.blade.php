@@ -32,7 +32,7 @@
 
            <div class="box">
               <div class="box-header with-border">
-                <h3 class="box-title">Category List</h3>
+                <h3 class="box-title">SubCategory List</h3>
               </div>
               <!-- /.box-header -->
               <div class="box-body">
@@ -40,25 +40,23 @@
                     <table id="example1" class="table table-bordered table-striped">
                       <thead>
                           <tr>
-                              <th>Icon</th>
-                              <th>Category En</th>
-                              <th>Category Ban</th>
+                              <th>Category</th>
+                              <th>SubCategory En</th>
+                              <th>SubCategory Ban</th>
                               <th>Action</th>
                           </tr>
                       </thead>
                       <tbody>
-                          @foreach ($categories as $element)
+                          @foreach ($subCategories as $element)
                           <tr>
-                            <td class="text-center">
-                              <span><i class="{{ $element->category_icon }}"></i></span>
-                          </td>
-                            <td>{{ $element->category_name_en }}</td>
-                            <td>{{ $element->category_name_ban }}</td>
+                            <td>{{ $element['category']['category_name_en']}}</td>
+                            <td>{{ $element->sub_category_name_en }}</td>
+                            <td>{{ $element->sub_category_name_ban }}</td>
                             <td>
-                              <a href="{{ route('category.edit',$element->id) }}" id="btnedit" class="btn btn-info" title="Edit Category">
+                              <a href="{{ route('subCategory.edit',$element->id) }}" id="btnedit" class="btn btn-info" title="Edit SubCategory">
                                 <i class="fa-solid fa-pen-to-square"></i>
                               </a>
-                              <a href="{{ route('category.remove',$element->id) }}" id="btndelete" class="btn btn-danger pl-5" title="Delete Category">
+                              <a href="{{ route('subCategory.remove',$element->id) }}" id="btndelete" class="btn btn-danger pl-5" title="Delete SubCategory">
                                 <i class="fa-solid fa-trash-can"></i>
                               </a>
                             </td>
@@ -80,36 +78,40 @@
 
             <div class="box">
                <div class="box-header with-border">
-                 <h3 class="box-title">Add Category</h3>
+                 <h3 class="box-title">Add SubCategory</h3>
                </div>
                <!-- /.box-header -->
                <div class="box-body">
                    <div class="table-responsive">
-                    <form id="addCategory" method="" action="" enctype="multipart/form-data">	
+                    <form id="addSubCategory" method="" action="">	
                         @csrf
                         <div class="form-group">
-                            <h5>Category Name English</h5>
+                            <h5>Select Category</h5>
                             <div class="controls">
-                            <input type="text" id="category_name_en" name="category_name_en" class="form-control" >
+                            <select name="category_select" id="category_select" class="form-control">
+                                <option value="" selected disabled>Select Category</option>
+                                @foreach ($categories as $element)
+                                <option value="{{ $element->id }}">{{ $element->category_name_en }}</option>
+                                @endforeach
+                            </select>
                             <span class="text-danger" id="category_name_en_error"></span>
                             </div>
                         </div>
-
                         <div class="form-group">
-                            <h5>Category Name Bangla</h5>
+                            <h5>SubCategory Name English</h5>
                             <div class="controls">
-                            <input type="text" id="category_name_ban" name="category_name_ban" class="form-control" >
-                            <span class="text-danger" id="category_name_ban_error"></span>
+                            <input type="text" id="sub_category_name_en" name="sub_category_name_en" class="form-control" >
+                            <span class="text-danger" id="sub_category_name_en_error"></span>
                             </div>
                         </div>
 
                         <div class="form-group">
-                        <h5>Category Icon</h5>
-                        <div class="controls">
-                        <input type="text" id="category_icon" name="category_icon" class="form-control" >
-                        <span class="text-danger" id="category_icon_error"></span>
+                            <h5>SubCategory Name Bengali</h5>
+                            <div class="controls">
+                            <input type="text" id="sub_category_name_ban" name="sub_category_name_ban" class="form-control" >
+                            <span class="text-danger" id="sub_category_name_ban_error"></span>
+                            </div>
                         </div>
-                    </div>
 
                     <div class="text-xs-right">
                         <input type="submit" class="btn btn-rounded btn-primary md-5">
@@ -160,23 +162,23 @@
     function clearData(){
       //input fields
       $('category_name_en').val('');
-      $('category_name_ban').val('');
-      $('category_icon').val('');
+      $('sub_category_name_en').val('');
+      $('sub_category_name_ban').val('');
 
       //error fields
         $('category_name_en_error').text('');
-        $('category_name_ban_error').text('');
-        $('category_icon_error').text('');
+        $('sub_category_name_ban_error').text('');
+        $('sub_category_icon_error').text('');
     }
 
         //ajax from submission
-        $("#addCategory").submit( function (e) { 
+        $("#addSubCategory").submit( function (e) { 
                 e.preventDefault();
                 let formData = new FormData(this);
 
                 $.ajax({
                     type: 'post',
-                    url: '/category/store',
+                    url: '/category/sub/store',
                     data: formData,
                     contentType: false,
                     processData: false,
@@ -189,9 +191,9 @@
                         })
                     },
                     error: function(err){
-                        $('#category_name_en_error').text(err.responseJSON.errors.category_name_en);
-                        $('#category_name_ban_error').text(err.responseJSON.errors.category_name_ban); 
-                        $('#category_icon_error').text(err.responseJSON.errors.category_icon); 
+                        $('#category_name_en_error').text(err.responseJSON.errors.category_select); 
+                        $('#sub_category_name_en_error').text(err.responseJSON.errors.sub_category_name_en);
+                        $('#sub_category_name_ban_error').text(err.responseJSON.errors.sub_category_name_ban); 
                     }
                 })
                 

@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
-
+    
+    //Mass Assignment
     protected $fillable = [
         'category_name_en',
         'category_name_ban',
