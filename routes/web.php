@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\AdminProfileController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SubCategoryController;
+use App\Http\Controllers\Backend\SubSubCategoryController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Models\User;
@@ -74,7 +75,22 @@ Route::prefix('category')->group(function(){
     Route::post('/sub/update', [SubCategoryController::class, 'update']);
     Route::get('/sub/remove/{id}', [SubCategoryController::class, 'remove'])->name('subCategory.remove');
 
+/*************************************
+            Sub SubCategory Route
+ *************************************/
+
+    Route::get('/sub/sub/show', [SubSubCategoryController::class, 'showSubSubCategory'])->name('all.subSubCategories');
+    Route::get('/subcategory/grave/{categoryId}', [SubSubCategoryController::class, 'grave']);
+    //Route::post('/sub/sub/store', [SubSubCategoryController::class, 'store'])->name('subCategory.store');
+    //Route::get('sub/sub/edit/{id}', [SubSubCategoryController::class, 'edit'])->name('subCategory.edit');
+    //Route::post('/sub/sub/update', [SubSubCategoryController::class, 'update']);
+    //Route::get('/sub/sub/remove/{id}', [SubSubCategoryController::class, 'remove'])->name('subCategory.remove');
+
+
+    
 });
+
+
 
 
 

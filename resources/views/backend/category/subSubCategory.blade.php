@@ -32,7 +32,7 @@
 
            <div class="box">
               <div class="box-header with-border">
-                <h3 class="box-title">SubCategory List</h3>
+                <h3 class="box-title">Sub->SubCategory List</h3>
               </div>
               <!-- /.box-header -->
               <div class="box-body">
@@ -41,17 +41,18 @@
                       <thead>
                           <tr>
                               <th>Category</th>
-                              <th>SubCategory En</th>
-                              <th>SubCategory Ban</th>
+                              <th>SubCategory Name</th>
+                              <th>Sub-SubCategory Name English</th>
                               <th>Action</th>
                           </tr>
                       </thead>
                       <tbody>
-                          @foreach ($subCategories as $element)
+                          @foreach ($subSubCategories as $element)
                           <tr>
                             <td>{{ $element['category']['category_name_en']}}</td>
-                            <td>{{ $element->sub_category_name_en }}</td>
-                            <td>{{ $element->sub_category_name_ban }}</td>
+                            <td>{{ $element['subCategory']['sub_category_name_en']}}</td>
+                            <td>{{ $element->sub_sub_category_name_en }}</td>
+                            <td>{{ $element->sub_sub_category_name_ban }}</td>
                             <td width= "30%">
                               <a href="{{ route('subCategory.edit',$element->id) }}" id="btnedit" class="btn btn-info" title="Edit SubCategory">
                                 <i class="fa-solid fa-pen-to-square"></i>
@@ -78,12 +79,12 @@
 
             <div class="box">
                <div class="box-header with-border">
-                 <h3 class="box-title">Add SubCategory</h3>
+                 <h3 class="box-title">Add Sub-SubCategory</h3>
                </div>
                <!-- /.box-header -->
                <div class="box-body">
                    <div class="table-responsive">
-                    <form id="addSubCategory" method="" action="">	
+                    <form id="addSubSubCategory" method="" action="">	
                         @csrf
                         <div class="form-group">
                             <h5>Select Category</h5>
@@ -97,19 +98,31 @@
                             <span class="text-danger" id="category_name_en_error"></span>
                             </div>
                         </div>
+
                         <div class="form-group">
-                            <h5>SubCategory Name English</h5>
+                            <h5>Select SubCategory</h5>
                             <div class="controls">
-                            <input type="text" id="sub_category_name_en" name="sub_category_name_en" class="form-control" >
-                            <span class="text-danger" id="sub_category_name_en_error"></span>
+                            <select name="sub_category_select" id="sub_category_select" class="form-control">
+                                <option value="" selected disabled>Select  SubCategory</option>
+                                
+                            </select>
+                            <span class="text-danger" id="category_name_en_error"></span>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <h5>SubCategory Name Bengali</h5>
+                            <h5>Sub-SubCategory Name English</h5>
                             <div class="controls">
-                            <input type="text" id="sub_category_name_ban" name="sub_category_name_ban" class="form-control" >
-                            <span class="text-danger" id="sub_category_name_ban_error"></span>
+                            <input type="text" id="sub_sub_category_name_en" name="sub_sub_category_name_en" class="form-control" >
+                            <span class="text-danger" id="sub_sub_category_name_en_error"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <h5>Sub-SubCategory Name Bengali</h5>
+                            <div class="controls">
+                            <input type="text" id="sub_sub_category_name_ban" name="sub_sub_category_name_ban" class="form-control" >
+                            <span class="text-danger" id="sub_sub_category_name_ban_error"></span>
                             </div>
                         </div>
 
@@ -147,7 +160,35 @@
 
 
 <script type="text/javascript">
-        
+   
+   $(document).ready(function () {
+       $('select[name = "category_select"]').on('change', function () {
+          var categoryId = $(this).val();
+          if(categoryId){
+              $.ajax({
+                  type: "GET",
+                  url: "/category/subcategory/grave/"+categoryId,
+                  dataType: "json",
+                  success: function (res) {
+                      var data = $('select[name = "sub_category_select"]').empty();
+                      $.each(res, function (key, value) {
+                          $('select[name = "sub_category_select"]').append(
+                              '<option value="'+value.id+'">'
+                                +value.sub_category_name_en+
+                                '</option>'
+                          ) 
+                           
+                      });
+                      
+                  }
+              });
+          }
+          else{
+              alert('danger');
+          }
+       });
+   });
+
   //sweetalert2
     var alertMsg = Swal.mixin({
         toast: true,
@@ -162,17 +203,17 @@
     function clearData(){
       //input fields
       $('category_name_en').val('');
-      $('sub_category_name_en').val('');
-      $('sub_category_name_ban').val('');
+      $('sub_sub_category_name_en').val('');
+      $('sub_sub_category_name_ban').val('');
 
       //error fields
         $('category_name_en_error').text('');
-        $('sub_category_name_ban_error').text('');
-        $('sub_category_icon_error').text('');
+        $('sub_sub_category_name_ban_error').text('');
+        $('sub_sub_category_icon_error').text('');
     }
 
         //ajax from submission
-        $("#addSubCategory").submit( function (e) { 
+        $("#addSubSubCategory").submit( function (e) { 
                 e.preventDefault();
                 let formData = new FormData(this);
 
