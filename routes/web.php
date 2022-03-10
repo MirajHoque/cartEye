@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\AdminProfileController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\SubSubCategoryController;
 use App\Http\Controllers\Frontend\IndexController;
@@ -86,8 +87,13 @@ Route::prefix('category')->group(function(){
     Route::post('/sub/sub/update', [SubSubCategoryController::class, 'update']);
     Route::get('/sub/sub/remove/{id}', [SubSubCategoryController::class, 'remove'])->name('subSubCategory.remove');
 
+});
 
-    
+/*************************************
+            Product Route
+ *************************************/
+Route::prefix('product')->group(function (){
+    Route::get('/add', [ProductController::class, 'addProduct'])->name('add.product');
 });
 
 
