@@ -74,7 +74,7 @@
           </a>
           <ul class="treeview-menu">
             <li {{ $route == 'add.product' ? 'active' : '' }}>
-              <a href="{{ route(add.product) }}">
+              <a href="{{ route('add.product')}}">
                 <i class="ti-more"></i>Add Products
               </a>
             </li>
