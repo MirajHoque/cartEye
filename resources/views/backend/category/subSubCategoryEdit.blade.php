@@ -27,73 +27,27 @@
       <!-- Main content -->
       <section class="content">
         <div class="row">
-            
-          <div class="col-8">
-
-           <div class="box">
-              <div class="box-header with-border">
-                <h3 class="box-title">Sub->SubCategory List</h3>
-              </div>
-              <!-- /.box-header -->
-              <div class="box-body">
-                  <div class="table-responsive">
-                    <table id="example1" class="table table-bordered table-striped">
-                      <thead>
-                          <tr>
-                              <th>Category</th>
-                              <th>SubCategory Name</th>
-                              <th>Sub-SubCategory Name English</th>
-                              <th>Sub-SubCategory Name Bengali</th>
-                              <th>Action</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          @foreach ($subSubCategories as $element)
-                          <tr>
-                            <td>{{ $element['category']['category_name_en']}}</td>
-                            <td>{{ $element['subCategory']['sub_category_name_en'] }}</td>
-                            <td>{{ $element->sub_sub_category_name_en }}</td>
-                            <td>{{ $element->sub_sub_category_name_ban }}</td>
-                            <td width= "30%">
-                              <a href="{{ route('subSubCategory.edit',$element->id) }}" id="btnedit" class="btn btn-info" title="Edit Sub SubCategory">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                              </a>
-                              <a href="{{ route('subSubCategory.remove',$element->id) }}" id="btndelete" class="btn btn-danger pl-5" title="Delete Sub SubCategory">
-                                <i class="fa-solid fa-trash-can"></i>
-                              </a>
-                            </td>
-                        </tr>
-                          @endforeach
-                          
-                          
-                      </tbody>
-                    </table>
-                  </div>
-              </div>
-              <!-- /.box-body -->
-            </div>
-            <!-- /.box -->          
-          </div>
-
-          <!-- Add Brands-->
-          <div class="col-4">
+                      <!-- Edit Sub-SubCategory-->
+          <div class="col-12 ml-1 mr-5">
 
             <div class="box">
                <div class="box-header with-border">
-                 <h3 class="box-title">Add Sub-SubCategory</h3>
+                 <h3 class="box-title">Edit Sub-SubCategory</h3>
                </div>
                <!-- /.box-header -->
                <div class="box-body">
                    <div class="table-responsive">
-                    <form id="addSubSubCategory" method="" action="">	
+                    <form id="updateSubSubCategory" method="" action="">	
                         @csrf
+                        <input type="hidden" id="id" name="id" value="{{ $subSubCategory->id }}">
                         <div class="form-group">
                             <h5>Select Category</h5>
                             <div class="controls">
                             <select name="category_select" id="category_select" class="form-control">
                                 <option value="" selected disabled>Select Category</option>
                                 @foreach ($categories as $element)
-                                <option value="{{ $element->id }}">
+                                <option value="{{ $element->id }}"
+                                  {{ $element->id == $subSubCategory->category_id ? 'selected' : '' }}>
                                     {{ $element->category_name_en }}
                                 </option>
                                 @endforeach
@@ -107,6 +61,12 @@
                             <div class="controls">
                             <select name="sub_category_select" id="sub_category_select" class="form-control">
                                 <option value="" selected disabled>Select  SubCategory</option>
+                                @foreach ($subCategories as $element)
+                                <option value="{{ $element->id }}"
+                                  {{ $element->id == $subSubCategory->sub_category_id ? 'selected' : '' }}>
+                                    {{ $element->sub_category_name_en }}
+                                </option>
+                                @endforeach
                                 
                             </select>
                             <span class="text-danger" id="sub_category_name_en_error"></span>
@@ -116,7 +76,7 @@
                         <div class="form-group">
                             <h5>Sub-SubCategory Name English</h5>
                             <div class="controls">
-                            <input type="text" id="sub_sub_category_name_en" name="sub_sub_category_name_en" class="form-control" >
+                            <input type="text" id="sub_sub_category_name_en" name="sub_sub_category_name_en" value="{{ $subSubCategory->sub_sub_category_name_en }}" class="form-control" >
                             <span class="text-danger" id="sub_sub_category_name_en_error"></span>
                             </div>
                         </div>
@@ -124,7 +84,7 @@
                         <div class="form-group">
                             <h5>Sub-SubCategory Name Bengali</h5>
                             <div class="controls">
-                            <input type="text" id="sub_sub_category_name_ban" name="sub_sub_category_name_ban" class="form-control" >
+                            <input type="text" id="sub_sub_category_name_ban" name="sub_sub_category_name_ban" value="{{ $subSubCategory->sub_sub_category_name_ban }}" class="form-control" >
                             <span class="text-danger" id="sub_sub_category_name_ban_error"></span>
                             </div>
                         </div>
@@ -164,33 +124,6 @@
 
 <script type="text/javascript">
    
-   $(document).ready(function () {
-       $('select[name = "category_select"]').on('change', function () {
-          var categoryId = $(this).val();
-          if(categoryId){
-              $.ajax({
-                  type: "GET",
-                  url: "/category/subcategory/grave/"+categoryId,
-                  dataType: "json",
-                  success: function (res) {
-                      var data = $('select[name = "sub_category_select"]').empty();
-                      $.each(res, function (key, value) {
-                          $('select[name = "sub_category_select"]').append(
-                              '<option value="'+value.id+'">'
-                                +value.sub_category_name_en+
-                                '</option>'
-                          ) 
-                           
-                      });
-                      
-                  }
-              });
-          }
-          else{
-              alert('danger');
-          }
-       });
-   });
 
   //sweetalert2
     var alertMsg = Swal.mixin({
@@ -218,13 +151,13 @@
     }
 
         //ajax from submission
-        $("#addSubSubCategory").submit( function (e) { 
+        $("#updateSubSubCategory").submit( function (e) { 
                 e.preventDefault();
                 let formData = new FormData(this);
 
                 $.ajax({
                     type: 'post',
-                    url: '/category/sub/sub/store',
+                    url: '/category/sub/sub/update',
                     data: formData,
                     contentType: false,
                     processData: false,
