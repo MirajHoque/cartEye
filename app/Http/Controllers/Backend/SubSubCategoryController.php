@@ -115,6 +115,12 @@ class SubSubCategoryController extends Controller
             'title' => 'Successfully Deleted'
         ];
         return redirect()->back()->with($response);
-    } 
+    }
+    
+    //Grave sub subcategory
+    function graveSubSubCategory($subCategoryId){
+        $subSubCategory = SubSubCategory::where('sub_category_id', $subCategoryId)->orderBy('sub_sub_category_name_en', 'ASC')->get();
+        return json_encode($subSubCategory);
+    }
    
 }
