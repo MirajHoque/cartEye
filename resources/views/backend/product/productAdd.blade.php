@@ -429,6 +429,7 @@
                url: "/category/subcategory/grave/"+categoryId,
                dataType: "json",
                success: function (res) {
+                $('select[name = "subsubcategory_id"]').html('');
                    var data = $('select[name = "subcategory_id"]').empty();
                    $.each(res, function (key, value) {
                        $('select[name = "subcategory_id"]').append(
