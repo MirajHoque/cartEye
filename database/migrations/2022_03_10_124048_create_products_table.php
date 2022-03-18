@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('category_id');
             $table->integer('subcategory_id');
             $table->integer('subsubcategory_id');
-            $table->string('product_name-en');
+            $table->string('product_name_en');
             $table->string('product_name_ban');
             $table->string('product_slug_en');
             $table->string('product_slug-ban');
@@ -34,9 +34,9 @@ return new class extends Migration
             $table->string('selling_price');
             $table->string('discount_price')->nullable();
             $table->string('short_des_en');
-            $table->string('short_des-ban');
-            $table->string('long_des_en');
-            $table->string('long_des_ban');
+            $table->string('short_des_ban');
+            $table->string('long_des_en')->nullable();
+            $table->string('long_des_ban')->nullable();
             $table->string('product_thumbnail');
             $table->integer('hot_deals')->nullable();
             $table->integer('featured')->nullable();

@@ -9,6 +9,8 @@ class MultiImage extends Model
 {
     use HasFactory;
 
+    protected $table = 'multiimages';
+
     //can not mass assign
     protected $guarded = [
 

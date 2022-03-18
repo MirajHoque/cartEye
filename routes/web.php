@@ -95,6 +95,7 @@ Route::prefix('category')->group(function(){
  *************************************/
 Route::prefix('product')->group(function (){
     Route::get('/add', [ProductController::class, 'addProduct'])->name('add.product');
+    Route::post('/store', [ProductController::class, 'store']);
 });
 
 
