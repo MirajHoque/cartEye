@@ -22,7 +22,7 @@
       <!-- sidebar menu-->
       <ul class="sidebar-menu" data-widget="tree">  
 		  
-		<li class="{{ $route == 'dashboard' ? 'active' : '' }}">
+		<li class="{{($route == 'dashboard') ? 'active' : '' }}">
           <a href="{{ url('admin/dashboard') }}">
             <i data-feather="pie-chart"></i>
 			<span>Dashboard</span>
@@ -37,9 +37,12 @@
               <i class="fa fa-angle-right pull-right"></i>
             </span>
           </a>
+
           <ul class="treeview-menu">
-            <li {{ $route == 'all.brands' ? 'active' : '' }}>
-              <a href="{{ route('all.brands') }}"><i class="ti-more"></i>All Brands</a>
+            <li class="{{ $route == 'all.brands' ? 'active' : '' }}">
+              <a href="{{ route('all.brands') }}">
+                <i class="ti-more"></i>All Brands
+              </a>
             </li>
           </ul>
         </li> 
@@ -51,15 +54,25 @@
               <i class="fa fa-angle-right pull-right"></i>
             </span>
           </a>
+
           <ul class="treeview-menu">
-            <li {{ $route == 'all.categories' ? 'active' : '' }}>
-              <a href="{{ route('all.categories')}}"><i class="ti-more"></i>All Category</a>
+
+            <li class="{{ $route == 'all.categories' ? 'active' : '' }}">
+              <a href="{{ route('all.categories')}}">
+                <i class="ti-more"></i>All Category
+              </a>
             </li>
-            <li {{ $route == 'all.subCategories' ? 'active' : '' }}>
-              <a href="{{ route('all.subCategories')}}"><i class="ti-more"></i>All Sub Category</a>
+
+            <li class="{{ $route == 'all.subCategories' ? 'active' : '' }}">
+              <a href="{{ route('all.subCategories')}}">
+                <i class="ti-more"></i>All Sub Category
+              </a>
             </li>
-            <li {{ $route == 'all.subSubCategories' ? 'active' : '' }}>
-              <a href="{{ route('all.subSubCategories')}}"><i class="ti-more"></i>All Sub->SubCategory</a>
+
+            <li class="{{ $route == 'all.subSubCategories' ? 'active' : '' }}">
+              <a href="{{ route('all.subSubCategories')}}">
+                <i class="ti-more"></i>All Sub->SubCategory
+              </a>
             </li>
           </ul>
         </li>
@@ -73,12 +86,17 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li {{ $route == 'add.product' ? 'active' : '' }}>
-              <a href="{{ route('add.product')}}">
+            <li class="{{$route == 'add.product' ? 'active' : '' }}">
+              <a href="{{ route('add.product') }}">
                 <i class="ti-more"></i>Add Products
               </a>
             </li>
-            <li><a href=""><i class="ti-more"></i>Manage Products</a></li>
+
+            <li class="{{ $route == 'manage.product' ? 'active' : '' }}">
+              <a href="{{ route('manage.product') }}">
+                <i class="ti-more"></i>Manage Products
+              </a>
+            </li>
           </ul>
         </li> 		  
 		 

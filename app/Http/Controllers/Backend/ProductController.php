@@ -47,11 +47,11 @@ class ProductController extends Controller
             'product_thumbnail' => 'required|image|mimes:jpeg,jpg,png|max:2048',
             'multi_img.*' => 'image|mimes:jpeg,jpg,png',
 
-            'short_des_en' => 'required|string|max:50',
-            'short_des_ban' => 'required|string|max:50',
+            'short_des_en' => 'required|string|max:200',
+            'short_des_ban' => 'required|string|max:200',
 
-            'long_des_en' => 'nullable|string|min:20|max:500',
-            'long_des_ban' => 'nullable|string|min:20|max:500',
+            'long_des_en' => 'nullable|string|min:20|max:1000',
+            'long_des_ban' => 'nullable|string|min:20|max:1000',
 
         ]);
 
@@ -126,9 +126,15 @@ class ProductController extends Controller
         $response = [
             'status' => 201,
             'msg' => 'Product added successfully',
+            'redirect_uri' => route('manage.product')
         ];
 
         return response()->json($response);
         
+    }
+
+    public function manage(){
+        $products = Product::latest()->get();
+        return view('backend.product.products', compact('products'));
     }
 }

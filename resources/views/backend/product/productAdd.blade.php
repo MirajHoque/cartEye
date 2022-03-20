@@ -616,7 +616,7 @@ function thumbnail(input){
                     processData: false,
                     success: function(res){
                         clearData();
-                        //window.location = res.redirect_uri;
+                        window.location = res.redirect_uri;
                         //firing sweetalert2          
                         alertMsg.fire({
                             title: res.msg,
