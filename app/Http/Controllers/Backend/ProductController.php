@@ -152,4 +152,95 @@ class ProductController extends Controller
 
         return view('backend.product.productEdit', compact('brands', 'categories', 'subCategories', 'subSubCategories', 'product'));
     }
+
+    //product update
+    function update(Request $req){
+        $productId = $req->id;
+
+        $fields = $req->validate([
+            'brand_id' => 'required',
+            'category_id' => 'required',
+            'subcategory_id' => 'required',
+            'subsubcategory_id' => 'required',
+
+            'product_name_en' => 'required|string|min:3|max:50',
+            'product_name_ban' => 'required|string|min:3|max:50',
+
+            'product_code' => 'required|string|min:3',
+            'product_qty' => 'required|numeric|min:1',
+
+            'product_tag_en' => 'required|string',
+            'product_tag_ban' => 'required|string',
+
+            'product_size_en' => 'required',
+            'product_size_ban' => 'required',
+
+            'product_color_en' => 'required|string',
+            'product_color_ban' => 'required|string',
+
+            'selling_price' => 'required|numeric|min:1',
+            'discount_price' => 'nullable|numeric|min:1',
+
+            'short_des_en' => 'required|string|max:200',
+            'short_des_ban' => 'required|string|max:200',
+
+            'long_des_en' => 'nullable|string|min:20|max:1000',
+            'long_des_ban' => 'nullable|string|min:20|max:1000',
+
+        ]);
+
+        //update data to the product table
+        $ProductId = Product::findOrFail($productId)->update([
+            'brand_id' => $fields['brand_id'],
+            'category_id' => $fields['category_id'],
+            'subcategory_id' => $fields['subcategory_id'],
+            'subsubcategory_id' => $fields['subsubcategory_id'],
+
+            'product_name_en' => $fields['product_name_en'],
+            'product_name_ban' => $fields['product_name_ban'],
+            'product_slug_en' => strtolower(str_replace('','-', $fields['product_name_en'])),
+            'product_slug-ban' => strtolower(str_replace('', '-', $fields['product_name_ban'])),
+
+            'product_code' => $fields['product_code'],
+            'product_qty' => $fields['product_qty'],
+
+            'product_tag_en' => $fields['product_tag_en'],
+            'product_tag_ban' => $fields['product_tag_ban'],
+
+            'product_size_en' => $fields['product_size_en'],
+            'product_size_ban' => $fields['product_size_ban'],
+
+            'product_color_en' => $fields['product_color_en'],
+            'product_color_ban' => $fields['product_color_ban'],
+
+            'selling_price' =>  $fields['selling_price'],
+            'discount_price' => $fields['discount_price'],
+
+            'short_des_en' => $fields['short_des_en'],
+            'short_des_ban' => $fields['short_des_ban'],
+            'long_des_en' => $fields['long_des_en'],
+            'long_des_ban' => $fields['long_des_ban'],
+
+            'hot_deals' => $req->hot_deals,
+            'featured' => $req->featured,
+
+            'special_offer' => $req->special_offer,
+            'special_deals' => $req->special_deals,
+
+            'status' => 1,
+
+            'created_at' => Carbon::now(),
+
+        ]);
+
+        $response = [
+            'status' => 201,
+            'msg' => 'Product updated successfully without image',
+            'redirect_uri' => route('manage.product')
+        ];
+
+        return response()->json($response);
+        
+
+    }
 }

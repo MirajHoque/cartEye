@@ -33,8 +33,9 @@
         <div class="box-body">
         <div class="row">
             <div class="col">
-                <form id="addProduct" enctype="multipart/form-data">
+                <form id="updateProduct">
                     @csrf
+                    <input type="hidden" name="id" value="{{ $product->id }}">
                 <div class="row">
                     <div class="col-12">
                         <div class="row"> <!--Start 1st row-->
@@ -471,49 +472,6 @@
 
 </script>
 
-<script type="text/javascript">
-
-function thumbnail(input){
-    if(input.files && input.files[0]){
-        var reader = new FileReader();
-        reader.onload = function(e){
-            $('#mainThumbnail').attr('src', e.target.result).width(80).height(80);
-        }
-        reader.readAsDataURL(input.files[0]);
-    }   
-}
-
-</script>
-
-<script type="text/javascript">
-
-    $(document).ready(function () {
-        $('#multi_img').on('change', function () {
-            if(window.File && window.FileReader && window.FileList && window.Blob)
-            {
-                var data = $(this)[0].files;
-
-                $.each(data, function (index, file) { 
-                     if(/(\.|\/)(gif|jpe?g|png)$/i.test(file.type)){
-                         var fRead = new FileReader();
-                         fRead.onload = (function(file){
-                             return function(e){
-                                 var img = $('<img/>').addClass('thumb').attr('src', e.target.result).width(80).height(80);
-                                 $('#preview_img').append(img);
-                             }
-                         })(file)
-                         fRead.readAsDataURL(file);
-                     }
-                });
-            } 
-            else{
-                alert("Your browser doesn't support file API")
-            }
-            
-        });
-    });  
-    
-    </script>
 
 <script type="text/javascript">
     //sweetalert2
@@ -551,8 +509,6 @@ function thumbnail(input){
         $('#selling_price').val('')
         $('#discount_price').val('')
 
-        $('#product_thumbnail').val(null)
-        $('#multi_img').val(null)
         
         $('#short_des_en').val('')
         $('#short_des_ban').val('')
@@ -584,9 +540,6 @@ function thumbnail(input){
         $('#selling_price_error').text('')
         $('#discount_price_error').text('')
 
-        $('#product_thumbnail_error').text('')
-        $('#multi_img_error').text('')
-
         $('#short_des_en_error').text('')
         $('#short_des_ban_error').text('')
         $('#long_des_en_error').text('')
@@ -595,13 +548,13 @@ function thumbnail(input){
     }
 
     //ajax from submission
-    $("#addProduct").submit( function (e) { 
+    $("#updateProduct").submit( function (e) { 
                 e.preventDefault();
                 let formData = new FormData(this);
 
                 $.ajax({
                     type: 'post',
-                    url: '/product/store',
+                    url: '/product/update',
                     data: formData,
                     contentType: false,
                     processData: false,
@@ -636,9 +589,6 @@ function thumbnail(input){
                         
                         $('#selling_price_error').text(err.responseJSON.errors.selling_price);
                         $('#discount_price_error').text(err.responseJSON.errors.discount_price);
-
-                        $('#product_thumbnail_error').text(err.responseJSON.errors.product_thumbnail);
-                        //$('#multi_img_error').text(err.responseJSON.errors.multi_img);
 
                         $('#short_des_en_error').text(err.responseJSON.errors.short_des_en)
                         $('#short_des_ban_error').text(err.responseJSON.errors.short_des_ban)
