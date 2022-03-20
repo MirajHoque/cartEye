@@ -57,10 +57,10 @@
                             <td>{{ $element->product_name_ban }}</td>
                             <td>{{ $element->product_qty }}</td>
                             <td>
-                              <a href="{{ route('category.edit',$element->id) }}" id="btnedit" class="btn btn-info" title="Edit Category">
+                              <a href="{{ route('product.edit',$element->id) }}" id="btnedit" class="btn btn-info" title="Edit Product">
                                 <i class="fa-solid fa-pen-to-square"></i>
                               </a>
-                              <a href="{{ route('category.remove',$element->id) }}" id="btndelete" class="btn btn-danger pl-5" title="Delete Category">
+                              <a href="" id="btndelete" class="btn btn-danger pl-5" title="Delete Product">
                                 <i class="fa-solid fa-trash-can"></i>
                               </a>
                             </td>
