@@ -43,7 +43,7 @@ class BrandController extends Controller
 
         $response = [
             'status' => 201,
-            'msg' => 'Profile updated successfully',
+            'msg' => 'Brand added successfully',
         ];
 
         return response()->json($response);

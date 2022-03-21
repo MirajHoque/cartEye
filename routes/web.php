@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\AdminProfileController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\SubSubCategoryController;
 use App\Http\Controllers\Frontend\IndexController;
@@ -106,9 +107,15 @@ Route::prefix('product')->group(function (){
     Route::get('/active/{id}', [ProductController::class, 'active'])->name('product.active');
     Route::get('/delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
 
-    
+});
 
+/*************************************
+            Slider Route
+ *************************************/
 
+Route::prefix('slider')->group(function(){
+    Route::get('/show', [SliderController::class, 'showSlider'])->name('manage.slider');
+    Route::post('/store', [SliderController::class, 'store']);
 
 });
 
