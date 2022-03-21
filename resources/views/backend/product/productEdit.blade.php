@@ -407,7 +407,7 @@
     </section>
     <!-- /.content -->
 
-    <!--Multiple Image update area -->
+    <!--Thumbnail update area -->
 
     <section class="content">
         <div class="row">
@@ -459,6 +459,66 @@
 
                         <div class="text-xs-right">
                             <input type="submit" class="btn btn-rounded btn-info" value="Update Image">
+                        </div>
+
+                    </form>
+  
+                    
+                  </div>
+            </div>
+
+
+        </div>  <!--end row -->
+
+    </section> <!-- end section -->
+
+    
+    <section class="content">
+        <div class="row">
+            
+            <div class="col-md-12">
+                <div class="box bt-3 border-info">
+                    <div class="box-header text-center">
+                      <h4 class="box-title">Product Thumbnail 
+                          <strong>Update</strong>
+                        </h4>
+                    </div>
+
+                    <form id="thumbnailUpdate" enctype="multipart/form-data">
+                        @csrf
+
+                        <input type="hidden" name="id" value="{{ $product->id }}">
+                        <input type="hidden" name="old_thumbnail" value="{{ $product->product_thumbnail }}">
+                        
+                        <div class="row row-sm pt-4">
+
+                            <div class="col-md-3">
+                                
+                                <div class="card">
+                                    <img src="{{ asset($product->product_thumbnail)}}" class="card-img-top" style="height: 220px; width:280px;">
+                                    <div class="card-body">
+
+                                      <p class="card-text pt-2">
+                                          <div class="form-group">
+                                              <label class="form-control-label" for="">
+                                                  Change Thumbnail
+                                                  <input type="file" name="product_thumbnail" id="product_thumbnail" onchange="thumbnail(this)" class="form-control">
+                                                  <span class="text-danger" id="product_thumbnail_error"></span>
+                                                  <img src="" id="mainThumbnail" alt="">
+                                              </label>
+                                          </div>
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                
+                            </div>  <!--   End col-md-3    -->
+
+
+                        </div>
+
+                        <div class="text-xs-right">
+                            <input type="submit" class="btn btn-rounded btn-info" value="Update Thumbnail">
                         </div>
 
                     </form>
@@ -708,6 +768,49 @@
             })
             
         });            
+
+</script>
+
+<script type="text/javascript">
+  
+  //Product Thumbnail
+  function thumbnail(input){
+    if(input.files && input.files[0]){
+        var reader = new FileReader();
+        reader.onload = function(e){
+            $('#mainThumbnail').attr('src', e.target.result).width(280).height(220);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }   
+}
+
+ //ajax from submission
+ $("#thumbnailUpdate").submit( function (e) { 
+            e.preventDefault();
+            let formData = new FormData(this);
+
+            $.ajax({
+                type: 'post',
+                url: '/product/thumbnail/update',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(res){
+                    //window.location = res.redirect_uri;
+                    //firing sweetalert2          
+                    alert.fire({
+                        title: res.msg,
+                    })
+                },
+                error: function(err){
+                
+                    $('#product_thumbnail_error').text(err.responseJSON.errors.product_thumbnail);
+                    
+                }
+            })
+            
+        });            
+
 
 </script>
 

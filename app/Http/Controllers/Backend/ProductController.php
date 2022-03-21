@@ -269,7 +269,40 @@ class ProductController extends Controller
                 'msg' => 'Product Image successfully updated',
                 'redirect_uri' => route('manage.product')
             ];
+            
+        return response()->json($response);
 
         }
+    }
+
+    //Thumbnail Update
+    function thumbnailUpdate(Request $req){
+        $req->validate([
+            'product_thumbnail' => 'required|mimes:png,jpg,jpeg'
+        ]);
+
+        $productId = $req->id;
+        $oldThumbnail = $req->old_thumbnail;
+
+        unlink($oldThumbnail);
+
+        $image = $req->file('product_thumbnail');
+        //dd($image);
+        $imageName = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+        Image::make($image)->resize(900,1000)->save('upload/products/thumbnail/'.$imageName);
+        $save_url = 'upload/products/thumbnail/'.$imageName;
+
+        Product::findOrFail($productId)->update([
+            'product_thumbnail' => $save_url,
+            'updated_at' => Carbon::now()
+        ]);
+
+        $response = [
+            'status' => 201,
+            'msg' => 'Product Thumbnail Updated successfully',
+            'redirect_uri' => route('manage.product')
+        ];
+
+        return response()->json($response);
     }
 }
