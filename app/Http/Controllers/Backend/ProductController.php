@@ -305,4 +305,15 @@ class ProductController extends Controller
 
         return response()->json($response);
     }
+
+    //Multiple Image delete
+    function MultiImgDelete($id){
+        $oldImage = MultiImage::findOrFail($id);
+        unlink($oldImage->image_name);
+        MultiImage::findOrFail($id)->delete();
+
+        return redirect()->back();
+
+    }
+
 }

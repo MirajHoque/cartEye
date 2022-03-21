@@ -433,7 +433,7 @@
                                     <img src="{{ asset($element->image_name)}}" class="card-img-top" style="height: 220px; width:280px;">
                                     <div class="card-body">
                                       <h5 class="card-title">
-                                          <a href="" class="btn btn-danger" id="delete" title="Delete Image">
+                                          <a href="{{ route('product.multi-img.delete',$element->id) }}" class="btn btn-danger" id="delete" title="Delete Image">
                                               <i class="fa fa-trash"></i>
                                           </a>
                                       </h5>
