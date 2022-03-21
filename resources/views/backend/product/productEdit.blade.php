@@ -406,6 +406,73 @@
 
     </section>
     <!-- /.content -->
+
+    <!--Multiple Image update area -->
+
+    <section class="content">
+        <div class="row">
+            
+            <div class="col-md-12">
+                <div class="box bt-3 border-info">
+                    <div class="box-header text-center">
+                      <h4 class="box-title">Product Multiple Image 
+                          <strong>Update</strong>
+                        </h4>
+                    </div>
+
+                    <form id="imageUpdate" enctype="multipart/form-data">
+                        @csrf
+                        
+                        <div class="row row-sm pt-4">
+
+                            @foreach ($multiImages as $element)
+
+                            <div class="col-md-3">
+                                
+                                <div class="card">
+                                    <img src="{{ asset($element->image_name)}}" class="card-img-top" style="height: 220px; width:280px;">
+                                    <div class="card-body">
+                                      <h5 class="card-title">
+                                          <a href="" class="btn btn-danger" id="delete" title="Delete Image">
+                                              <i class="fa fa-trash"></i>
+                                          </a>
+                                      </h5>
+
+                                      <p class="card-text pt-2">
+                                          <div class="form-group">
+                                              <label class="form-control-label" for="">
+                                                  Change Image
+                                                  <span class="text-danger"></span>
+                                                  <input type="file" class="form-control" name="multi_img[{{ $element->id }}]" id="multi_img">
+                                              </label>
+                                          </div>
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                
+                            </div>  <!--   End col-md-3    -->
+
+                            @endforeach
+
+                        </div>
+
+                        <div class="text-xs-right">
+                            <input type="submit" class="btn btn-rounded btn-info" value="Update Image">
+                        </div>
+
+                    </form>
+  
+                    
+                  </div>
+            </div>
+
+
+        </div>  <!--end row -->
+
+    </section> <!-- end section -->
+
+
 </div>
 
 @endsection
@@ -602,6 +669,48 @@
             });            
 
 </script>
+
+<script type="text/javascript">
+
+        //sweetalert2
+        var alert = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 1500
+            })
+
+        //ajax from submission
+        $("#imageUpdate").submit( function (e) { 
+            e.preventDefault();
+            let formData = new FormData(this);
+
+            $.ajax({
+                type: 'post',
+                url: '/product/image/update',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(res){
+                    //window.location = res.redirect_uri;
+                    //firing sweetalert2          
+                    alert.fire({
+                        title: res.msg,
+                    })
+                },
+                error: function(err){
+                
+                    //$('#product_code_error').text(err.responseJSON.errors.product_code);
+                    //$('#product_qty_error').text(err.responseJSON.errors.product_qty);
+                    
+                }
+            })
+            
+        });            
+
+</script>
+
 <script src="{{asset('assets/vendor_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js') }}"></script>
 <script src="{{ asset('assets/vendor_components/ckeditor/ckeditor.js') }}"></script>
 <script src="{{ asset('assets/vendor_plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js') }}"></script>

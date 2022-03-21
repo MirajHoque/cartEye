@@ -148,9 +148,11 @@ class ProductController extends Controller
         $subCategories = SubCategory::latest()->get();
         $subSubCategories = SubSubCategory::latest()->get();
 
+        $multiImages = MultiImage::where('product_id', '=', $id)->get();
+
         $product = Product::findOrFail($id);
 
-        return view('backend.product.productEdit', compact('brands', 'categories', 'subCategories', 'subSubCategories', 'product'));
+        return view('backend.product.productEdit', compact('brands', 'categories', 'subCategories', 'subSubCategories', 'product', 'multiImages'));
     }
 
     //product update
@@ -242,5 +244,32 @@ class ProductController extends Controller
         return response()->json($response);
         
 
+    }
+
+    //update product multi image
+    function imageUpdate(Request $req){
+        $images = $req->multi_img;
+        //dd($images);
+
+        foreach($images as $key => $value){
+            $imageDelete = MultiImage::findOrFail($key);
+            unlink($imageDelete->image_name);
+
+            $nameGenrate = hexdec(uniqid()).'.'.$value->getClientOriginalExtension();
+            Image::make($value)->resize(900,1000)->save('upload/products/multiImg/'.$nameGenrate);
+            $savePath = 'upload/products/multiImg/'.$nameGenrate;
+
+            MultiImage::where('id', '=', $key)->update([
+                 'image_name' => $savePath,
+                 'updated_at' => Carbon::now()
+             ]);
+
+             $response = [
+                'status' => 201,
+                'msg' => 'Product Image successfully updated',
+                'redirect_uri' => route('manage.product')
+            ];
+
+        }
     }
 }
