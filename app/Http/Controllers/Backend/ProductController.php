@@ -248,6 +248,10 @@ class ProductController extends Controller
 
     //update product multi image
     function imageUpdate(Request $req){
+        $req->validate([
+            'multi_img.*' => 'image|mimes:png,jpg,jpeg',
+        ]);
+
         $images = $req->multi_img;
         //dd($images);
 
@@ -278,7 +282,7 @@ class ProductController extends Controller
     //Thumbnail Update
     function thumbnailUpdate(Request $req){
         $req->validate([
-            'product_thumbnail' => 'required|mimes:png,jpg,jpeg'
+            'product_thumbnail' => 'required|image|mimes:png,jpg,jpeg'
         ]);
 
         $productId = $req->id;
@@ -329,6 +333,22 @@ class ProductController extends Controller
         Product::findOrFail($id)->update([
             'status' => 1
         ]);
+
+        return redirect()->back();
+
+    }
+
+    //product delete
+    function delete($id){
+        $product = Product::findOrFail($id);
+        unlink($product->product_thumbnail);
+        Product::findOrFail($id)->delete();
+
+        $multiImages = MultiImage::where('product_id', '=', $id)->get();
+        foreach($multiImages as $element){
+            unlink($element->image_name);
+            MultiImage::where('product_id', '=', $id)->delete();
+        }
 
         return redirect()->back();
 

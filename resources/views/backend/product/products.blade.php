@@ -89,7 +89,7 @@
                               <a href="{{ route('product.edit',$element->id) }}" id="btnedit" class="btn btn-info" title="Edit Product">
                                 <i class="fa-solid fa-pen-to-square"></i>
                               </a>
-                              <a href="" id="btndelete" class="btn btn-danger pl-5" title="Delete Product">
+                              <a href="{{ route('product.delete', $element->id) }}" id="btndelete" class="btn btn-danger pl-5" title="Delete Product">
                                 <i class="fa-solid fa-trash-can"></i>
                               </a>
 
