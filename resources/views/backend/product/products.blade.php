@@ -43,7 +43,10 @@
                               <th>Image</th>
                               <th>Name in English</th>
                               <th>Name in Bengali</th>
+                              <th>Price</th>
+                              <th>Discounted Price</th>
                               <th>Quantity</th>
+                              <th>Status</th>
                               <th>Action</th>
                           </tr>
                       </thead>
@@ -55,14 +58,51 @@
                           </td>
                             <td>{{ $element->product_name_en }}</td>
                             <td>{{ $element->product_name_ban }}</td>
-                            <td>{{ $element->product_qty }}</td>
+                            <td>${{ $element->selling_price }}</td>
+
                             <td>
+
+                              @if ($element->discount_price)
+
+                              @php
+                                $discountAmount = $element->selling_price - $element->discount_price;
+                                $discountPercentage = ($discountAmount / $element->selling_price) * 100;
+                              @endphp
+
+                              <span class="badge badge-pill badge-success">{{ round($discountPercentage) }} %</span>
+
+                              @else
+                              <span class="badge badge-pill badge-danger">No Discount</span>
+                                
+                              @endif
+                            
+                            </td>
+                            <td>{{ $element->product_qty }} units</td>
+                            <td>
+                              @if ($element->status == 1)
+                                 <span class="badge badge-pill badge-success">Active</span>
+                                @else
+                                <span class="badge badge-pill badge-danger">InActive</span>
+                              @endif
+                            </td>
+                            <td style="width: 17%">
                               <a href="{{ route('product.edit',$element->id) }}" id="btnedit" class="btn btn-info" title="Edit Product">
                                 <i class="fa-solid fa-pen-to-square"></i>
                               </a>
                               <a href="" id="btndelete" class="btn btn-danger pl-5" title="Delete Product">
                                 <i class="fa-solid fa-trash-can"></i>
                               </a>
+
+                              @if ($element->status == 1)
+                              <a href="{{ route('product.inactive',$element->id) }}" id="btnedit" class="btn btn-danger" title="Inactive Now">
+                                <i class="fa fa-arrow-down "></i>
+                              </a>
+                                @else
+                                <a href="{{ route('product.active',$element->id) }}" id="btnedit" class="btn btn-primary" title="Active Now">
+                                  <i class="fa fa-arrow-up"></i>
+                                </a>
+                              @endif
+
                             </td>
                         </tr>
                           @endforeach

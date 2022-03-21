@@ -313,6 +313,24 @@ class ProductController extends Controller
         MultiImage::findOrFail($id)->delete();
 
         return redirect()->back();
+    }
+
+    //product Inactive
+    function inActive($id){
+        Product::findOrFail($id)->update([
+            'status' => 0
+        ]);
+
+        return redirect()->back();
+    }
+
+    //product Active
+    function active($id){
+        Product::findOrFail($id)->update([
+            'status' => 1
+        ]);
+
+        return redirect()->back();
 
     }
 
