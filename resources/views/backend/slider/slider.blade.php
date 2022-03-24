@@ -84,13 +84,13 @@
                                    style="width: 130px; height 70px" alt="">
                             </td>
                             <td style="width: 27%">
-                              <button type="button" id="btnedit" title="Edit Slider" class="btn btn-info">
+                              <a href="{{ route('slider.edit', $element->id) }}" id="btnedit" title="Edit Slider" class="btn btn-info">
                                   <i class="fa-solid fa-pen-to-square"></i>
-                                </button>
+                              </a>
 
-                              <button type="button" id="btndelete" title="Delete Slider" class="btn btn-danger pl-5">
+                              <a href="" id="btndelete" title="Delete Slider" class="btn btn-danger pl-5">
                                   <i class="fa-solid fa-trash-can"></i>
-                                </button>
+                              </a>
 
                                 @if ($element->status == 1)
                                 <a href="" id="btnedit" class="btn btn-danger" title="Inactive Now">

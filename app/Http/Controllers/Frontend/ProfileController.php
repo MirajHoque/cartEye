@@ -25,10 +25,10 @@ class ProfileController extends Controller
         $data->email = $fields['email'];
         $data->phone = $fields['phone'];
         
-        //check if admin upload a image
+        //check if user upload a image
         if($req->hasFile('profile_photo')){
             $file = $req->file('profile_photo');
-            @unlink(public_path('upload/adminImages/'.$data->profile_photo_path));
+            @unlink(public_path('upload/userImages/'.$data->profile_photo_path));
             //$extension = getClientOrginalExtension($file);
             $fileName = date('ymdHi').$file->getClientOriginalName();
             $file->move(public_path('upload/userImages'), $fileName);
