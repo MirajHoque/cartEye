@@ -88,7 +88,7 @@
                                   <i class="fa-solid fa-pen-to-square"></i>
                               </a>
 
-                              <a href="" id="btndelete" title="Delete Slider" class="btn btn-danger pl-5">
+                              <a href="{{ route('slider.delete', $element->id) }}" id="btndelete" title="Delete Slider" class="btn btn-danger pl-5">
                                   <i class="fa-solid fa-trash-can"></i>
                               </a>
 

@@ -91,7 +91,22 @@ class SliderController extends Controller
     ];
 
     return response()->json($response);
+   
+    }
 
-        
+    //SLider Delete
+    function delete($id){
+        $slider = Slider::findOrFail($id);
+        $img = $slider->slider;
+        unlink($img);
+        Slider::findOrFail($id)->delete();
+
+        $response = [
+            'status' => 201,
+            'msg' => 'Slider deleted successfully',
+            'redirect_uri' => route('manage.slider')
+        ];
+
+        return redirect()->back();
     }
 }
