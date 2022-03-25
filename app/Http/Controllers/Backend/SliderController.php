@@ -109,4 +109,22 @@ class SliderController extends Controller
 
         return redirect()->back();
     }
+
+    //Inactive slider
+    function inActive($id){
+        Slider::findOrFail($id)->update([
+            'status' => 0
+        ]);
+
+        return redirect()->back();
+    }
+
+    //Slider Active
+    function active($id){
+        Slider::findOrFail($id)->update([
+            'status' => 1
+        ]);
+
+        return redirect()->back();
+    }
 }

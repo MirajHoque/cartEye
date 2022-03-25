@@ -93,11 +93,11 @@
                               </a>
 
                                 @if ($element->status == 1)
-                                <a href="" id="btnedit" class="btn btn-danger" title="Inactive Now">
+                                <a href="{{ route('slider.inactive', $element->id) }}" id="btnedit" class="btn btn-danger" title="Inactive Now">
                                   <i class="fa fa-arrow-down "></i>
                                 </a>
                                   @else
-                                  <a href="" id="btnedit" class="btn btn-primary" title="Active Now">
+                                  <a href="{{ route('slider.active', $element->id) }}" id="btnedit" class="btn btn-primary" title="Active Now">
                                     <i class="fa fa-arrow-up"></i>
                                   </a>
                                 @endif
