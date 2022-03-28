@@ -40,8 +40,8 @@
                     <table id="example1" class="table table-bordered table-striped">
                       <thead>
                           <tr>
-                              <th>Brand En</th>
-                              <th>Brand Ban</th>
+                              <th>Name in English</th>
+                              <th>Name in Bengali</th>
                               <th>Image</th>
                               <th>Action</th>
                           </tr>
@@ -56,8 +56,8 @@
                                    style="width: 50px; height 40px" alt="">
                             </td>
                             <td>
-                              <button type="button" id="btnedit" title="Edit Brand" class="btn btn-info"><i class="fa-solid fa-pen-to-square"></i></button>
-                              <button type="button" id="btndelete" title="Delete Brand" class="btn btn-danger pl-5"><i class="fa-solid fa-trash-can"></i></button>
+                              <button type="button" id="btnedit" onclick="editBrand($element->id)" title="Edit Brand" class="btn btn-info"><i class="fa-solid fa-pen-to-square"></i></button>
+                              <button type="button" id="btndelete" onclick="deleteBrand($element->id)" title="Delete Brand" class="btn btn-danger pl-5"><i class="fa-solid fa-trash-can"></i></button>
                             </td>
                         </tr>
                           @endforeach
@@ -82,8 +82,9 @@
                <!-- /.box-header -->
                <div class="box-body">
                    <div class="table-responsive">
-                    <form id="addBrand" method="" action="" enctype="multipart/form-data">	
+                    <form id="addBrand" enctype="multipart/form-data">	
                         @csrf
+
                         <div class="form-group">
                             <h5>Brand Name English</h5>
                             <div class="controls">
@@ -193,6 +194,27 @@
                 
             });
 
+</script>
+
+<script type="text/javascript">
+
+function editBrand(id){
+              $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: "brand/edit/"+id,
+                success: function(data){
+                  console.log(data);
+                  //$("#brand_name_en").val(data.name);
+                  //$("#brand_name_ban").val(data.title);
+                  //$("#brand_image").val(data.institute);
+                  //console.log(data);
+                },
+                error: function(){
+                  //
+                }
+              })
+            }
 </script>
 
 <script src="{{ asset('assets/vendor_components/datatable/datatables.min.js') }}"></script>

@@ -58,6 +58,7 @@ Route::middleware(['auth:admin'])->group(function(){
 Route::prefix('brand')->group(function(){
     Route::get('/show', [BrandController::class, 'showBrand'])->name('all.brands');
     Route::post('/store', [BrandController::class, 'store'])->name('brand.store');
+    Route::get('/edit/{id}', [BrandController::class, 'edit']);
 
 });
 
