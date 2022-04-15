@@ -6,7 +6,17 @@
         <div class="header-top-inner">
           <div class="cnt-account">
             <ul class="list-unstyled">
-              <li><a href="#"><i class="icon fa fa-user"></i>My Account</a></li>
+              <li>
+                <a href="#">
+                  <i class="icon fa fa-user"></i>
+                  @if (session()->get('language') == 'Bengali')
+                      হোম
+                  @else  
+                  My Account  
+                  @endif
+                  
+                </a>
+              </li>
               <li><a href="#"><i class="icon fa fa-heart"></i>Wishlist</a></li>
               <li><a href="#"><i class="icon fa fa-shopping-cart"></i>My Cart</a></li>
               <li><a href="#"><i class="icon fa fa-check"></i>Checkout</a></li>
@@ -30,11 +40,27 @@
                   <li><a href="#">GBP</a></li>
                 </ul>
               </li>
-              <li class="dropdown dropdown-small"> <a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown"><span class="value">English </span><b class="caret"></b></a>
+              <li class="dropdown dropdown-small">
+                 <a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
+                   <span class="value">
+                    @if (session()->get('language') == 'Bengali')
+                    ভাষা:বাংলা
+                    @else
+                        Language
+                    @endif
+                    </span>
+                    <b class="caret"></b>
+                  </a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">English</a></li>
-                  <li><a href="#">French</a></li>
-                  <li><a href="#">German</a></li>
+                 @if (session()->get('language') == 'Bengali')
+                     <li>
+                       <a href="{{ route('english.language') }}">English</a>
+                     </li>
+                 @else
+                 <li>
+                  <a href="{{ route('bengali.language') }}">Bengali</a>
+                </li>
+                 @endif
                 </ul>
               </li>
             </ul>
@@ -146,7 +172,16 @@
             <div class="navbar-collapse collapse" id="mc-horizontal-menu-collapse">
               <div class="nav-outer">
                 <ul class="nav navbar-nav">
-                  <li class="active dropdown yamm-fw"> <a href="{{ url('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">Home</a> </li>
+                  <li class="active dropdown yamm-fw">
+                     <a href="{{ url('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">
+                      @if (session()->get('language') == 'Bengali')
+                          হোম             
+                      @else
+                      Home
+                      @endif
+                      
+                    </a> 
+                  </li>
 <!--  Get Category Data -->
 @php
   $categories = App\Models\Category::orderBy('category_name_en', 'ASC')->get();
@@ -156,7 +191,11 @@
 
 <li class="dropdown yamm mega-menu">
   <a href="home.html" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">
-    {{ $element->category_name_en }}        
+    @if (session()->get('language') == 'Bengali')
+        {{ $element->category_name_ban }}        
+    @else
+        {{ $element->category_name_en }}
+    @endif        
   </a>
  <ul class="dropdown-menu container">
    <li>
@@ -171,7 +210,14 @@ $subCategories = App\Models\SubCategory::where('category_id', '=', $element->id)
 
 @foreach ($subCategories as $item)
 <div class="col-xs-12 col-sm-6 col-md-2 col-menu">
-  <h2 class="title">{{ $item->sub_category_name_en }}</h2>
+  <h2 class="title">
+    @if (session()->get('language') == 'Bengali')
+    {{ $item->sub_category_name_ban }}
+    @else
+    {{ $item->sub_category_name_en }}
+    @endif
+    
+  </h2>
 
   <!--  Get Sub Sub Category Data -->
 @php
@@ -181,7 +227,14 @@ $subSubCategories = App\Models\SubSubCategory::where('sub_category_id', '=', $it
 
   @foreach ($subSubCategories as $attribute)
   <ul class="links">
-    <li><a href="#">{{ $attribute->sub_sub_category_name_en }}</a></li>
+    <li><a href="#">
+      @if (session()->get('language') == 'Bengali')
+      {{ $attribute->sub_sub_category_name_ban }}
+      @else
+      {{ $attribute->sub_sub_category_name_en }}
+      @endif
+      </a>
+    </li>
   </ul>
   @endforeach
   <!--  End Sub Sub Category foreach -->

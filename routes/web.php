@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\SubSubCategoryController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Frontend\ProfileController;
+use App\Http\Controllers\LanguageController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -131,9 +132,14 @@ Route::prefix('slider')->group(function(){
 
 });
 
+//Front-End Route
 
+/*************************************
+            Multi Language Route
+ *************************************/
 
-
+Route::get('/language/bengali', [LanguageController::class, 'bengali'])->name('bengali.language');
+Route::get('/laguage/english', [LanguageController::class, 'english'])->name('english.language');
 
 /*************************************
             User Route
