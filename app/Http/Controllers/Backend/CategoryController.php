@@ -19,7 +19,7 @@ class CategoryController extends Controller
         $fields = $req->validate([
             'category_name_en' => 'required|string|min:3|max:20|unique:categories,category_name_en',
             'category_name_ban' => 'required|string|min:3|max:25|unique:categories,category_name_en',
-            'category_icon' => 'required|string|unique:categories,category_name_en'
+            //'category_icon' => 'required|string|unique:categories,category_name_en'
         ]);
 
         Category::create([
@@ -27,7 +27,7 @@ class CategoryController extends Controller
             'category_name_ban' => $fields['category_name_ban'],
             'category_slug_en' => strtolower(str_replace(' ', '-', $fields['category_name_en'])),
             'category_slug_ban' => strtolower(str_replace(' ', '-', $fields['category_name_ban'])),
-            'category_icon' => $fields['category_icon']
+            //'category_icon' => $fields['category_icon']
         ]);
 
 

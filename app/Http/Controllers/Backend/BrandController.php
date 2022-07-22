@@ -52,7 +52,7 @@ class BrandController extends Controller
 
     //Edit Brand
     function edit($id){
-        dd(request());
+        //dd(request());
         $brand = Brand::findOrFail($id);
         return response()->json($brand);
     }
