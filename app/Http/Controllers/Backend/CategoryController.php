@@ -51,12 +51,10 @@ class CategoryController extends Controller
         $fields = $req->validate([
             'category_name_en' => 'required|string|min:3|max:20',
             'category_name_ban' => 'required|string|min:3|max:25',
-            'category_icon' => 'required|string'
+            'category_icon' => 'string|nullable'
         ]);
 
         $category = $req->category_id;
-
-        //dd($category);
 
         Category::findOrFail($category)->update([
             'category_name_en' => $fields['category_name_en'],
