@@ -1033,6 +1033,7 @@
                       <!-- /.products --> 
                     </div>
                     <!-- /.item -->
+
                     @endforeach
 
                     {{-- all products --}}
@@ -1049,10 +1050,12 @@
               <div class="tab-pane" id="category{{ $category->id }}">
                 <div class="product-slider">
                   <div class="owl-carousel home-owl-carousel custom-carousel owl-theme" data-item="4">
+  
                     @php
                       $categoryWiseProducts = App\Models\Product::where('category_id', '=', $category->id)
                                               ->orderBy('id', 'DESC')->limit(8)->get();
                     @endphp
+
                     @forelse ($categoryWiseProducts as $product)
                     <div class="item item-carousel">
                       <div class="products">
@@ -1062,24 +1065,39 @@
                               <a href="detail.html"><img  src="{{ asset($product->product_thumbnail) }}" alt=""></a> 
                             </div>
                             <!-- /.image -->
-                            
-                            <div class="tag new"><span>new</span></div>
+                            @php
+                              $amount =$product->selling_price - $product->discount_price;
+                              $discount = ($amount/$product->selling_price) * 100;
+                            @endphp
+
+                            <div>
+                              @if ($product->discount_price == null)
+                              <div class="tag new"><span>new</span></div>
+                              @else
+                              <div class="tag hot"><span>{{ round($discount) }}%</span></div>
+                              @endif
+                            </div>
                           </div>
                           <!-- /.product-image -->
                           
                           <div class="product-info text-left">
                             <h3 class="name">
-                              {{-- @if (session()->get('language') == 'Bengali')
-                              <a href="detail.html">{{ $product->product_name_ban  }}</a>
+                              @if (session()->get('language') == 'Bengali')
+                              <a href="detail.html">{{ $product->product_name_ban }}</a>
                               @else
                               <a href="detail.html">{{ $product->product_name_en }}</a>
-                              @endif --}}
-                             
+                              @endif
+                              
                             </h3>
                             <div class="rating rateit-small"></div>
                             <div class="description"></div>
-                            <div class="product-price"> <span class="price">{{ $product->selling_price }}</span>
-                              <span class="price-before-discount">$ 800</span>
+                            <div class="product-price">
+                              @if ($product->discount_price == null)
+                              <span class="price">{{ $product->selling_price }}</span>
+                              @else
+                              <span class="price">{{ $product->discount_price }}</span>
+                              <span class="price-before-discount">{{ $product->selling_price }}</span>
+                              @endif
                             </div>
                             <!-- /.product-price --> 
                             
@@ -1105,9 +1123,10 @@
                       </div>
                       <!-- /.products --> 
                     </div>
+                    <!-- /.item -->
+
                     @empty
                     <h5 class="text-danger">No product found</h5>
-                    <!-- /.item -->
                     @endforelse
 
                     {{-- all products --}}
