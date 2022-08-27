@@ -52,8 +52,8 @@ class ProductController extends Controller
             'short_des_en' => 'required|string|max:200',
             'short_des_ban' => 'required|string|max:200',
 
-            'long_des_en' => 'nullable|string|min:20|max:1000',
-            'long_des_ban' => 'nullable|string|min:20|max:1000',
+            'long_des_en' => 'nullable',
+            'long_des_ban' => 'nullable',
 
         ]);
 
@@ -186,10 +186,12 @@ class ProductController extends Controller
             'short_des_en' => 'required|string|max:200',
             'short_des_ban' => 'required|string|max:200',
 
-            'long_des_en' => 'nullable|string|min:20|max:1000',
-            'long_des_ban' => 'nullable|string|min:20|max:1000',
+            'long_des_en' => 'nullable',
+            'long_des_ban' => 'nullable',
 
         ]);
+
+        // dd($fields['long_des_en']);
 
         //update data to the product table
         $ProductId = Product::findOrFail($productId)->update([

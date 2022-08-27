@@ -1,4 +1,7 @@
 @extends('frontend.layout')
+@section('title')
+  Home
+@endsection
 
 @section('content')
 
@@ -971,7 +974,9 @@
                         <div class="product">
                           <div class="product-image">
                             <div class="image"> 
-                              <a href="detail.html"><img  src="{{ asset($product->product_thumbnail) }}" alt=""></a> 
+                              <a href="{{ route('product.details', ['id' => $product->id, 'slug' => $product->product_slug_en]) }}">
+                                <img  src="{{ asset($product->product_thumbnail) }}" alt="">
+                              </a> 
                             </div>
                             <!-- /.image -->
                             @php
@@ -992,9 +997,13 @@
                           <div class="product-info text-left">
                             <h3 class="name">
                               @if (session()->get('language') == 'Bengali')
-                              <a href="detail.html">{{ $product->product_name_ban }}</a>
+                              <a href="{{ route('product.details', ['id' => $product->id, 'slug' => $product->product_slug_ban]) }}">
+                                {{ $product->product_name_ban }}
+                              </a>
                               @else
-                              <a href="detail.html">{{ $product->product_name_en }}</a>
+                              <a href="{{ route('product.details', ['id' => $product->id, 'slug' => $product->product_slug_en]) }}">
+                                {{ $product->product_name_en }}
+                              </a>
                               @endif
                               
                             </h3>
@@ -1062,7 +1071,9 @@
                         <div class="product">
                           <div class="product-image">
                             <div class="image"> 
-                              <a href="detail.html"><img  src="{{ asset($product->product_thumbnail) }}" alt=""></a> 
+                              <a href="{{ route('product.details', ['id' => $product->id, 'slug' => $product->product_slug_en]) }}">
+                                <img  src="{{ asset($product->product_thumbnail) }}" alt="">
+                              </a> 
                             </div>
                             <!-- /.image -->
                             @php
@@ -1083,9 +1094,9 @@
                           <div class="product-info text-left">
                             <h3 class="name">
                               @if (session()->get('language') == 'Bengali')
-                              <a href="detail.html">{{ $product->product_name_ban }}</a>
+                              <a href="{{ route('product.details', ['id' => $product->id, 'slug' => $product->product_slug_en]) }}">{{ $product->product_name_ban }}</a>
                               @else
-                              <a href="detail.html">{{ $product->product_name_en }}</a>
+                              <a href="{{ route('product.details', ['id' => $product->id, 'slug' => $product->product_slug_en]) }}">{{ $product->product_name_en }}</a>
                               @endif
                               
                             </h3>

@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\SubSubCategoryController;
 use App\Http\Controllers\Frontend\IndexController;
+use App\Http\Controllers\Frontend\Product\ProductInfoController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\LanguageController;
 use App\Models\User;
@@ -147,9 +148,7 @@ Route::get('/laguage/english', [LanguageController::class, 'english'])->name('en
 
 Route::middleware(['auth:sanctum,web', 'verified'])->get('web/dashboard', function () {
     $id = Auth::user()->id;
-    //dd($id);
     $user = User::find($id);
-    //dd($user);
     return view('dashboard', compact('user'));
 })->name('dashboard');
 
@@ -159,3 +158,8 @@ Route::get('/user/profile', [IndexController::class, 'userProfile'])->name('user
 Route::post('/user/profile/store', [ProfileController::class, 'store']);
 Route::get('/user/change/password', [ProfileController::class, 'changePassword'])->name('change.password');
 Route::post('/user/update/password', [ProfileController::class, 'updatePassword']);
+
+/*************************************
+            Product Route
+ *************************************/
+ Route::get('product/details/{id}/{slug}', [ProductInfoController::class, 'productDetails'])->name('product.details');
