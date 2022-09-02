@@ -26,7 +26,7 @@ class ProductController extends Controller
             'brand_id' => 'required',
             'category_id' => 'required',
             'subcategory_id' => 'required',
-            'subsubcategory_id' => 'required',
+            'subsubcategory_id' => 'nullable',
 
             'product_name_en' => 'required|string|min:3|max:50|unique:products,product_name_en',
             'product_name_ban' => 'required|string|min:3|max:50|unique:products,product_name_ban',
@@ -68,12 +68,12 @@ class ProductController extends Controller
             'brand_id' => $fields['brand_id'],
             'category_id' => $fields['category_id'],
             'subcategory_id' => $fields['subcategory_id'],
-            'subsubcategory_id' => $fields['subsubcategory_id'],
+            'subsubcategory_id' => $fields['subsubcategory_id'] ?? 0,
 
             'product_name_en' => $fields['product_name_en'],
             'product_name_ban' => $fields['product_name_ban'],
             'product_slug_en' => strtolower(str_replace('','-', $fields['product_name_en'])),
-            'product_slug-ban' => strtolower(str_replace('', '-', $fields['product_name_ban'])),
+            'product_slug_ban' => strtolower(str_replace('', '-', $fields['product_name_ban'])),
 
             'product_code' => $fields['product_code'],
             'product_qty' => $fields['product_qty'],
@@ -163,7 +163,7 @@ class ProductController extends Controller
             'brand_id' => 'required',
             'category_id' => 'required',
             'subcategory_id' => 'required',
-            'subsubcategory_id' => 'required',
+            'subsubcategory_id' => 'nullable',
 
             'product_name_en' => 'required|string|min:3|max:50',
             'product_name_ban' => 'required|string|min:3|max:50',
@@ -191,19 +191,17 @@ class ProductController extends Controller
 
         ]);
 
-        // dd($fields['long_des_en']);
-
         //update data to the product table
         $ProductId = Product::findOrFail($productId)->update([
             'brand_id' => $fields['brand_id'],
             'category_id' => $fields['category_id'],
             'subcategory_id' => $fields['subcategory_id'],
-            'subsubcategory_id' => $fields['subsubcategory_id'],
+            'subsubcategory_id' => $fields['subsubcategory_id'] ?? 0,
 
             'product_name_en' => $fields['product_name_en'],
             'product_name_ban' => $fields['product_name_ban'],
             'product_slug_en' => strtolower(str_replace('','-', $fields['product_name_en'])),
-            'product_slug-ban' => strtolower(str_replace('', '-', $fields['product_name_ban'])),
+            'product_slug_ban' => strtolower(str_replace('', '-', $fields['product_name_ban'])),
 
             'product_code' => $fields['product_code'],
             'product_qty' => $fields['product_qty'],
