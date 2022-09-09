@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Slider;
@@ -21,9 +22,50 @@ class IndexController extends Controller
         $specialOfferProducts = Product::where('special_offer', '=', 1)->orderBy('id', 'DESC')->limit(5)->get();
         $specialDealProducts = Product::where('special_deals', '=', 1)->orderBy('id', 'DESC')->limit(3)->get();
         
+        $specificCategory = Category::skip(0)->first();
+        
+        $specificCategoryWiseProduct = Product::where([
+            ['status', '=', 1],
+            ['category_id', '=', $specificCategory->id]
+        ])
+        ->orderBy('id', 'DESC')
+        ->get();
+
+        $specificCategoryTwo = Category::skip(1)->first();
+        
+        $specificCategoryWiseProductTwo = Product::where([
+            ['status', '=', 1],
+            ['category_id', '=', $specificCategoryTwo->id]
+        ])
+        ->orderBy('id', 'DESC')
+        ->take(5)
+        ->get();
+
+        $specificBrand = Brand::skip(0)->first();
+        
+        $specificBrandWiseProduct = Product::where([
+            ['status', '=', 1],
+            ['brand_id', '=', $specificBrand->id]
+        ])
+        ->orderBy('id', 'DESC')
+        ->get();
+
+        $specificBrandTwo = Brand::skip(1)->first();
+        
+        $specificBrandWiseProductTwo = Product::where([
+            ['status', '=', 1],
+            ['brand_id', '=', $specificBrandTwo->id]
+        ])
+        ->orderBy('id', 'DESC')
+        ->take(5)
+        ->get();
+
         return view('frontend.index', 
         compact('categories', 'sliders', 'products', 'featuredProducts',
-                'hotDealProducts', 'specialOfferProducts', 'specialDealProducts'
+                'hotDealProducts', 'specialOfferProducts', 'specialDealProducts',
+                'specificCategory', 'specificCategoryWiseProduct', 'specificCategoryTwo',
+                'specificCategoryWiseProductTwo', 'specificBrand', 'specificBrandWiseProduct',
+                'specificBrandTwo', 'specificBrandWiseProductTwo'
             ));
     }
 
