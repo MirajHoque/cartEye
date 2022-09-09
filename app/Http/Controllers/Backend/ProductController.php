@@ -49,8 +49,8 @@ class ProductController extends Controller
             'product_thumbnail' => 'required|image|mimes:jpeg,jpg,png|max:2048',
             'multi_img.*' => 'image|mimes:jpeg,jpg,png',
 
-            'short_des_en' => 'required|string|max:200',
-            'short_des_ban' => 'required|string|max:200',
+            'short_des_en' => 'required|string|max:1000',
+            'short_des_ban' => 'required|string|max:1000',
 
             'long_des_en' => 'nullable',
             'long_des_ban' => 'nullable',
@@ -183,8 +183,8 @@ class ProductController extends Controller
             'selling_price' => 'required|numeric|min:1',
             'discount_price' => 'nullable|numeric|min:1',
 
-            'short_des_en' => 'required|string|max:200',
-            'short_des_ban' => 'required|string|max:200',
+            'short_des_en' => 'required|string|max:1000',
+            'short_des_ban' => 'required|string|max:1000',
 
             'long_des_en' => 'nullable',
             'long_des_ban' => 'nullable',

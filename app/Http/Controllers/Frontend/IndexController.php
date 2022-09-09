@@ -19,8 +19,12 @@ class IndexController extends Controller
         $featuredProducts = Product::where('featured', '=', 1)->orderBy('id', 'DESC')->limit(6)->get();
         $hotDealProducts = Product::where('hot_deals', '=', 1)->orderBy('id', 'DESC')->limit(6)->get();
         $specialOfferProducts = Product::where('special_offer', '=', 1)->orderBy('id', 'DESC')->limit(5)->get();
+        $specialDealProducts = Product::where('special_deals', '=', 1)->orderBy('id', 'DESC')->limit(3)->get();
         
-        return view('frontend.index', compact('categories', 'sliders', 'products', 'featuredProducts', 'hotDealProducts', 'specialOfferProducts'));
+        return view('frontend.index', 
+        compact('categories', 'sliders', 'products', 'featuredProducts',
+                'hotDealProducts', 'specialOfferProducts', 'specialDealProducts'
+            ));
     }
 
     function logOut(){

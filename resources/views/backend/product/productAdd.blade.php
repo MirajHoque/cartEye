@@ -114,7 +114,7 @@
                                 <div class="form-group">
                                     <h5>Product Name English<span class="text-danger"></span></h5>
                                     <div class="controls">
-                                        <input type="text" name="product_name_en" id="product_name_en" class="form-control">
+                                        <input type="text" name="product_name_en" id="product_name_en" class="form-control" value="{{ old('product_name_en') }}">
                                         <span class="text-danger" id="product_name_en_error"></span>
                                     </div>
                                 </div>
@@ -125,7 +125,7 @@
                                 <div class="form-group">
                                     <h5>Product Name Bengali<span class="text-danger"></span></h5>
                                     <div class="controls">
-                                        <input type="text" name="product_name_ban" id="product_name_ban" class="form-control">
+                                        <input type="text" name="product_name_ban" id="product_name_ban" class="form-control" value="{{ old('product_name_ban') }}">
                                         <span class="text-danger" id="product_name_ban_error"></span>
                                     </div>
                                 </div>
@@ -144,7 +144,7 @@
                                 <div class="form-group">
                                     <h5>Product Code<span class="text-danger"></span></h5>
                                     <div class="controls">
-                                        <input type="text" name="product_code" id="product_code" class="form-control">
+                                        <input type="text" name="product_code" id="product_code" class="form-control" value="{{ old('product_code') }}">
                                         <span class="text-danger" id="product_code_error"></span>
                                     </div>
                                 </div>
@@ -312,7 +312,9 @@
                                 <div class="form-group">
                                     <h5>Short Description English<span class="text-danger"></span></h5>
                                     <div class="controls">
-                                        <textarea name="short_des_en" id="short_des_en" class="form-control" cols="10" rows="5"></textarea>
+                                        <textarea name="short_des_en" id="short_des_en" class="form-control" cols="10" rows="5">
+                                            {{ old('short_des_en') }}
+                                        </textarea>
                                         <span class="text-danger" id="short_des_en_error"></span>
                                     </div>
                                 </div>
@@ -323,7 +325,9 @@
                                 <div class="form-group">
                                     <h5>Short Description Bengali<span class="text-danger"></span></h5>
                                     <div class="controls">
-                                        <textarea name="short_des_ban" id="short_des_ban" class="form-control" cols="10" rows="5"></textarea>
+                                        <textarea name="short_des_ban" id="short_des_ban" class="form-control" cols="10" rows="5">
+                                            {{ old('short_des_ban') }}
+                                        </textarea>
                                         <span class="text-danger" id="short_des_ban_error"></span>
                                     </div>
                                 </div>
@@ -340,7 +344,8 @@
                                 <div class="form-group">
                                     <h5>Long Description English<span class="text-danger"></span></h5>
                                     <div class="controls">
-                                        <textarea id="editor1" name="long_des_en" rows="10" cols="80"> 
+                                        <textarea id="editor1" name="long_des_en" rows="10" cols="80">
+                                            {{ old('long_des_en') }} 
                                         </textarea>
                                         <span class="text-danger" id="long_des_en_error"></span>
                                     </div>
@@ -353,6 +358,7 @@
                                     <h5>Long Description Bengali<span class="text-danger"></span></h5>
                                     <div class="controls">
                                         <textarea id="editor2" name="long_des_ban" rows="10" cols="80">
+                                            {{ old('long_des_ban') }}
                                         </textarea>
                                         <span class="text-danger" id="long_des_ban_error"></span>
                                     </div>
@@ -605,6 +611,22 @@ function thumbnail(input){
 
     //ajax from submission
     $("#addProduct").submit( function (e) { 
+        $('#brand_name_en_error').text();
+        $('#category_name_en_error').text()
+        $('#subcategory_name_en_error').text()
+        $('#subsubcategory_name_en_error').text()
+
+        $('#product_name_en_error').text();
+        $('#product_name_ban_error').text();
+
+        $('#product_code_error').text();
+        $('#product_qty_error').text();
+
+        $('#short_des_en_error').text()
+        $('#short_des_ban_error').text()
+        $('#long_des_en_error').text();
+        $('#long_des_ban_error').text();
+
                 e.preventDefault();
                 let formData = new FormData(this);
 
@@ -634,6 +656,11 @@ function thumbnail(input){
 
                         $('#product_code_error').text(err.responseJSON.errors.product_code);
                         $('#product_qty_error').text(err.responseJSON.errors.product_qty);
+
+                        $('#selling_price_error').text();
+                        $('#discount_price_error').text();
+
+                        $('#product_thumbnail_error').text();
                         
                        // $('#product_tag_en_error').text(err.responseJSON.errors.product_tag_en)
                        // $('#product_tag_ban_error'.text(err.responseJSON.errors.product_tag_ban)
@@ -647,7 +674,7 @@ function thumbnail(input){
                         $('#discount_price_error').text(err.responseJSON.errors.discount_price);
 
                         $('#product_thumbnail_error').text(err.responseJSON.errors.product_thumbnail);
-                        //$('#multi_img_error').text(err.responseJSON.errors.multi_img);
+                        $('#multi_img_error').text(err.responseJSON.errors.multi_img);
 
                         $('#short_des_en_error').text(err.responseJSON.errors.short_des_en)
                         $('#short_des_ban_error').text(err.responseJSON.errors.short_des_ban)
