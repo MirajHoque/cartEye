@@ -16,4 +16,17 @@ class ProductInfoController extends Controller
 
         return view('frontend.product.product-details', compact('product', 'multiImages'));
     }
+
+    //product tag
+    public function tagWiseProduct($tag){
+        $products = Product::where([
+            ['status', '=', 1],
+            ['product_tag_en', '=', $tag],
+            ['product_tag_ban', '=', $tag]
+            ])
+            ->orderBy('id', 'DESC')
+            ->get();
+        
+        return view('frontend.product.tag.tag-wise-product', compact('products'));
+    }
 }

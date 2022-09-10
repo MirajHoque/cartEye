@@ -11,7 +11,7 @@
 
 @yield('cdn')
 
-<title>@yield('title') |cartEye</title>
+<title>@yield('title')|cartEye</title>
 
 <!-- Bootstrap Core CSS -->
 <link rel="stylesheet" href="{{ asset('frontend/assets/css/bootstrap.min.css') }}">

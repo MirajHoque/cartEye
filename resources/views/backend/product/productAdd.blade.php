@@ -166,7 +166,7 @@
                                 <div class="form-group">
                                     <h5>Product Tags English<span class="text-danger"></span></h5>
                                     <div class="controls">
-                                        <input type="text" name="product_tag_en" id="product_tag_en" value="Lorem,Ipsum,Amet" data-role="tagsinput" required class="form-control">
+                                        <input type="text" name="product_tag_en" id="product_tag_en" data-role="tagsinput" required class="form-control">
                                         <span class="text-danger" id="product_tag_en_error"></span>
                                     </div>
                                 </div>
@@ -184,7 +184,7 @@
                                 <div class="form-group">
                                     <h5>Product Tags Bengali<span class="text-danger"></span></h5>
                                     <div class="controls">
-                                        <input type="text" name="product_tag_ban" id="product_tag_ban" value="Lorem,Ipsum,Amet" data-role="tagsinput" required class="form-control">
+                                        <input type="text" name="product_tag_ban" id="product_tag_ban" data-role="tagsinput" required class="form-control">
                                         <span class="text-danger" id="product_tag_ban_error"></span>
                                     </div>
                                 </div>

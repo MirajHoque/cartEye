@@ -163,3 +163,4 @@ Route::post('/user/update/password', [ProfileController::class, 'updatePassword'
             Product Route
  *************************************/
  Route::get('product/details/{id}/{slug}', [ProductInfoController::class, 'productDetails'])->name('product.details');
+Route::get('/product/tag/{tag}', [ProductInfoController::class, 'tagWiseProduct'])->name('product-tag');
