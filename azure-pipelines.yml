@@ -1,0 +1,81 @@
+
+trigger:
+- none
+
+stages: 
+- stage: BuildApplication
+  jobs:
+    - job: Build
+      pool:
+        vmImage: ubuntu-latest
+
+      variables:
+        phpVersion: 8.1
+
+      steps:
+      - script: |
+          sudo update-alternatives --set php /usr/bin/php$(phpVersion)
+          sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
+          sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
+          sudo update-alternatives --set php-cgi /usr/bin/php-cgi$(phpVersion)
+          sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion)
+          php -version
+        displayName: 'Use PHP version $(phpVersion)'
+
+        
+      - script: |
+          sudo composer self-update
+          composer install --no-interaction --prefer-dist --no-suggest
+          composer --version
+        displayName: 'Installing Package Dependencies'
+
+      #whiteSouceBolt
+      - task: WhiteSource Bolt@20
+        name: 'WhiteSourceBolt'
+        displayName: 'White source bolt scan'
+        inputs:
+          cwd: '$(System.DefaultWorkingDirectory)'
+
+      - script: cp .env.example .env
+        displayName: 'Copy Env File'
+
+      # Archive files v2
+      # Archive files using compression formats such as .7z, .tar, .gz, and .zip.
+      - task: ArchiveFiles@2
+        inputs:
+          # string. Required. Root folder or file to archive. Default: $(Build.BinariesDirectory).
+          rootFolderOrFile: '$(System.DefaultWorkingDirectory)' 
+          # boolean. Required. Prepend root folder name to archive paths. Default value true.
+          #Prepends the root folder name to file paths in the archive. Otherwise, all file paths will start one level lower.
+          includeRootFolder: false 
+          archiveType: 'zip'
+          # string. Required. Archive file to create. Default: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip.
+          #Specify the name of the archive file to create. For example, to create foo.tgz:
+          #archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+          #Replace existing archive boolean. Required. Default value: true.
+          #replaceExistingArchive: true
+
+
+
+      #publish pipeline artifact to Az pipeline 
+      - task: PublishPipelineArtifact@1
+        name: PublishPipelineArtifact
+        displayName: 'Publish pipeline artifact'
+        inputs:
+          targetPath: '$(Pipeline.Workspace)'
+          Artifact: 'drop'
+          publishLocation: 'pipeline'
+
+- stage: DeployToDev
+  dependsOn: "BuildApplication"
+  jobs: 
+    - job: DeployDev
+      pool:
+        vmImage: 'ubuntu-latest'
+      
+      steps:
+        #download pipeline artifacts
+        - download: current
+          artifact: drop
+
+
